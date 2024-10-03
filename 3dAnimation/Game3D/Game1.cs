@@ -87,30 +87,19 @@ namespace Game3D
             restPose = mesh.Skeleton.GetRestPose();
         }
 
-        int currentBone = 0;
-        bool debugMode = false;
-        float animationSpeed = 1f;
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            playbackTime = mesh.Clips[CurrentClip].Sample(restPose, playbackTime + ((float)gameTime.ElapsedGameTime.TotalSeconds * animationSpeed));
-
-            model.DebugMode(debugMode, currentBone);
+            playbackTime = mesh.Clips[CurrentClip].Sample(restPose, playbackTime + ((float)gameTime.ElapsedGameTime.TotalSeconds));
 
             base.Update(gameTime);
         }
-        private float angle = 0;
 
         protected override void Draw(GameTime gameTime)
         {
-            angle += 0.8f;
-            if (angle > 360.0f)
-                angle -= 360.0f;
-
-            GraphicsDevice.Clear(debugMode ? Color.Black : Color.Gray);
+            GraphicsDevice.Clear(Color.Gray);
 
             model.SetWorld(world);
 
@@ -119,7 +108,6 @@ namespace Game3D
             spriteBatch.Begin();
             spriteBatch.DrawString(font, "Use (up, down) to change the animation", Vector2.Zero, Color.White);
             spriteBatch.DrawString(font, $"Animation: {mesh.Clips[CurrentClip].mName}", Vector2.UnitY * 15, Color.White);
-            spriteBatch.DrawString(font, $"Debug Mode (Press F1): status: {debugMode} Current Bone: {(currentBone < mesh.JointsIndexs.Length && currentBone >= 0 ? mesh.JointsIndexs[currentBone] : currentBone)} {(currentBone < mesh.JointsIndexs.Length && currentBone >= 0 ? mesh.Skeleton.GetJoinName(mesh.JointsIndexs[currentBone]) : currentBone)} (left, right)", Vector2.UnitY * 30, Color.White);
             spriteBatch.DrawString(font, $"FPS: {1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds}", Vector2.UnitY * 45, Color.White);
             spriteBatch.End();
 
