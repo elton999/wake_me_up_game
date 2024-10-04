@@ -4,24 +4,25 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Game3D;
 public class Game1 : Game
 {
-    const int SCREEN_WIDTH = 1024, SCREEN_HEIGHT = 768;
-    static public int screenW, screenH;
+    public const int SCREEN_WIDTH = 1024, SCREEN_HEIGHT = 768;
+    public static int ScreenW, ScreenH;
 
-    GraphicsDeviceManager graphics;
-    GraphicsDevice gpu;
-    SpriteBatch spriteBatch;
-    SpriteFont font;
+    private GraphicsDeviceManager _graphics;
+    private GraphicsDevice _gpu;
+    private SpriteBatch _spriteBatch;
+    private SpriteFont _font;
+
+    private Scene _scene;
 
     Rectangle desktopRect;
     Rectangle screenRect;
 
-    RenderTarget2D MainTarget;
+    public RenderTarget2D MainTarget;
 
-    Scene scene;
 
     public Game1()
     {
-        graphics = new GraphicsDeviceManager(this);
+        _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
         Window.AllowUserResizing = true;
@@ -33,39 +34,39 @@ public class Game1 : Game
         int desktop_width = SCREEN_WIDTH;
         int desktop_height = SCREEN_HEIGHT;
 
-        graphics.PreferredBackBufferWidth = desktop_width;
-        graphics.PreferredBackBufferHeight = desktop_height;
-        graphics.IsFullScreen = false;
-        graphics.PreferredDepthStencilFormat = DepthFormat.None;
+        _graphics.PreferredBackBufferWidth = desktop_width;
+        _graphics.PreferredBackBufferHeight = desktop_height;
+        _graphics.IsFullScreen = false;
+        _graphics.PreferredDepthStencilFormat = DepthFormat.None;
         GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-        graphics.ApplyChanges();
+        _graphics.ApplyChanges();
         Window.Position = new Point(30, 60);
-        gpu = GraphicsDevice;
+        _gpu = GraphicsDevice;
 
-        PresentationParameters pp = gpu.PresentationParameters;
-        spriteBatch = new SpriteBatch(gpu);
-        MainTarget = new RenderTarget2D(gpu, SCREEN_WIDTH, SCREEN_HEIGHT, false, pp.BackBufferFormat, DepthFormat.Depth24);
-        screenH = MainTarget.Height;
-        screenW = MainTarget.Width;
+        PresentationParameters pp = _gpu.PresentationParameters;
+        _spriteBatch = new SpriteBatch(_gpu);
+        MainTarget = new RenderTarget2D(_gpu, SCREEN_WIDTH, SCREEN_HEIGHT, false, pp.BackBufferFormat, DepthFormat.Depth24);
+        ScreenH = MainTarget.Height;
+        ScreenW = MainTarget.Width;
         desktopRect = new Rectangle(0, 0, pp.BackBufferWidth, pp.BackBufferHeight);
-        screenRect = new Rectangle(0, 0, screenW, screenH);
+        screenRect = new Rectangle(0, 0, ScreenW, ScreenH);
 
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
-        scene = new Scene(gpu, Content);
-        entity.Model = Content.Load<Model>("models/house");
-        entity.Texture = Content.Load<Texture2D>("textures/default_texture");
-        scene.AddEntity(entity);
+        _scene = new Scene(_gpu, Content);
+        entity.Model = Content.Load<Model>(Path.MODEL_HOUSE_PATH);
+        entity.Texture = Content.Load<Texture2D>(Path.BASIC_TEXTURE_PATH);
+        _scene.AddEntity(entity);
 
-        font = Content.Load<SpriteFont>("BasicFont");
+        _font = Content.Load<SpriteFont>(Path.FONT_PATH);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+        _scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         base.Update(gameTime);
     }
 
@@ -73,11 +74,11 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        scene.Draw();
+        _scene.Draw();
 
-        spriteBatch.Begin();
-        spriteBatch.DrawString(font, $"FPS: {1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds}", Vector2.UnitY * 10, Color.White);
-        spriteBatch.End();
+        _spriteBatch.Begin();
+        _spriteBatch.DrawString(_font, $"FPS: {(int)(1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds)}", Vector2.UnitY * 10, Color.White);
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }

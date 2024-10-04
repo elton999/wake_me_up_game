@@ -16,7 +16,7 @@ public class Entity
 
     public virtual void Start()
     {
-        Effect = Scene.Content.Load<Effect>("shaders/DiffuseLighting");
+        Effect = Scene.Content.Load<Effect>(Path.BASIC_SHADERS_PATH);
     }
 
     public virtual void Update(float deltaTime) { }
