@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Game3D.Entites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game3D;
@@ -28,7 +29,6 @@ public class Game1 : Game
         Window.AllowUserResizing = true;
     }
 
-    Entity entity = new Entity();
     protected override void Initialize()
     {
         int desktop_width = SCREEN_WIDTH;
@@ -57,9 +57,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _scene = new Scene(_gpu, Content);
-        entity.Model = Content.Load<Model>(Path.MODEL_HOUSE_PATH);
-        entity.Texture = Content.Load<Texture2D>(Path.BASIC_TEXTURE_PATH);
-        _scene.AddEntity(entity);
+        _scene.AddEntity(new HouseEntity());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
     }
@@ -78,6 +76,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
         _spriteBatch.DrawString(_font, $"FPS: {(int)(1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds)}", Vector2.UnitY * 10, Color.White);
+        _spriteBatch.DrawString(_font, $"Camera Position: {_scene.Camera.Position.ToString()}", Vector2.UnitY * 25, Color.White);
         _spriteBatch.End();
 
         base.Draw(gameTime);

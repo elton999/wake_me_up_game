@@ -14,10 +14,7 @@ public class Entity
     private Scene _scene;
     public Scene Scene => _scene;
 
-    public virtual void Start()
-    {
-        Effect = Scene.Content.Load<Effect>(Path.BASIC_SHADERS_PATH);
-    }
+    public virtual void Start() { }
 
     public virtual void Update(float deltaTime) { }
 
