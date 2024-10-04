@@ -1,10 +1,10 @@
 ﻿#if OPENGL
-#define SV_POSITION POSITION
-#define VS_SHADERMODEL vs_3_0
-#define PS_SHADERMODEL ps_3_0
+    #define SV_POSITION POSITION
+    #define VS_SHADERMODEL vs_3_0
+    #define PS_SHADERMODEL ps_3_0
 #else
-#define VS_SHADERMODEL vs_4_0_level_9_1
-#define PS_SHADERMODEL ps_4_0_level_9_1
+    #define VS_SHADERMODEL vs_4_0_level_9_1
+    #define PS_SHADERMODEL ps_4_0_level_9_1
 #endif
 
 #define MAX_BONES 90
@@ -92,7 +92,6 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 technique BasicColorDrawing{
     pass P0{
         VertexShader = compile VS_SHADERMODEL MainVS();
-PixelShader = compile PS_SHADERMODEL MainPS();
-}
-}
-;
+        PixelShader = compile PS_SHADERMODEL MainPS();
+    }
+};

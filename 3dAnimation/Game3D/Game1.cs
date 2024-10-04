@@ -77,12 +77,12 @@ namespace Game3D
         protected override void LoadContent()
         {
             font = Content.Load<SpriteFont>("BasicFont");
-            mesh = Content.Load<Mesh>("Woman");
+            mesh = Content.Load<Mesh>("models/Woman");
 
             model = new UmbrellaToolsKit.Animation3D.Model(mesh, GraphicsDevice);
-            model.SetTexture(Content.Load<Texture2D>("WomanTex"));
+            model.SetTexture(Content.Load<Texture2D>("textures/WomanTex"));
             model.SetLightPosition(lightPosition);
-            model.SetEffect(Content.Load<Effect>("DiffuseLighting"));
+            model.SetEffect(Content.Load<Effect>("shaders/DiffuseLighting"));
 
             restPose = mesh.Skeleton.GetRestPose();
         }
