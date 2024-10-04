@@ -15,7 +15,7 @@ public class Camera
     {
         GPU = gpu;
         Up = UpDirection;
-        Position = new Vector3(20.0f, 12.0f, 10.0f);
+        Position = new Vector3(10.0f, 5.0f, 5.0f);
         Target = Vector3.One;
 
         View = Matrix.CreateLookAt(Position, Target, Up);
