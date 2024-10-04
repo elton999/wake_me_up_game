@@ -9,15 +9,17 @@ public class Camera
     public Vector3 Position, Target;
     public Matrix View, Projection, ViewProjection;
     public Vector3 Up;
+    public GraphicsDevice GPU;
 
     public Camera(GraphicsDevice gpu, Vector3 UpDirection)
     {
+        GPU = gpu;
         Up = UpDirection;
         Position = new Vector3(20.0f, 12.0f, 10.0f);
         Target = Vector3.One;
 
         View = Matrix.CreateLookAt(Position, Target, Up);
-        Projection = Matrix.CreatePerspectiveFieldOfView(/*MathHelper.PiOver4*/ MathHelper.ToRadians(45), gpu.Viewport.AspectRatio, 0.01f, FAR_PLANE);
+        Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, gpu.Viewport.AspectRatio, 0.01f, FAR_PLANE);
         ViewProjection = View * Projection;
     }
 

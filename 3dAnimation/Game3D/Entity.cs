@@ -30,6 +30,11 @@ public class Entity
 
     public virtual void Draw(Matrix view, Matrix projection)
     {
+        Scene.Camera.GPU.BlendState = BlendState.Opaque;
+        Scene.Camera.GPU.DepthStencilState = DepthStencilState.Default;
+        Scene.Camera.GPU.SamplerStates[0] = SamplerState.LinearWrap;
+        Scene.Camera.GPU.RasterizerState = RasterizerState.CullNone;
+
         foreach (ModelMesh mesh in Model.Meshes)
         {
             foreach (ModelMeshPart meshPart in mesh.MeshParts)
