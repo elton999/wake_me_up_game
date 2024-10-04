@@ -1,45 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using UmbrellaToolsKit.Animation3D;
 
 namespace Game3D
 {
     public class Game1 : Game
     {
-        const int SCREENWIDTH = 1024, SCREENHEIGHT = 768;
+        const int SCREEN_WIDTH = 1024, SCREEN_HEIGHT = 768;
+        static public int screenW, screenH;
+
         GraphicsDeviceManager graphics;
         GraphicsDevice gpu;
         SpriteBatch spriteBatch;
         SpriteFont font;
-        static public int screenW, screenH;
 
         Rectangle desktopRect;
         Rectangle screenRect;
 
         RenderTarget2D MainTarget;
 
-        Matrix world = Matrix.CreateTranslation(0, 0, 0);
-        Matrix view = Matrix.CreateLookAt(new Vector3(0, 4, 20), new Vector3(0, 3, 0), new Vector3(0, 1, 0));
-        Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), SCREENWIDTH / SCREENHEIGHT, 0.01f, 100f);
-
-        Vector3 lightPosition = new Vector3(2, 2, 2);
-
-        UmbrellaToolsKit.Animation3D.Mesh mesh;
-        UmbrellaToolsKit.Animation3D.Model model;
-
-        Pose restPose;
-        float playbackTime;
-        int currentClip;
-        int CurrentClip
-        {
-            get
-            {
-                if (currentClip > 0)
-                    return (currentClip % (mesh.Clips.Length));
-                return currentClip = 0;
-            }
-        }
+        Scene scene;
 
         public Game1()
         {
@@ -49,10 +28,11 @@ namespace Game3D
             Window.AllowUserResizing = true;
         }
 
+        Entity entity = new Entity();
         protected override void Initialize()
         {
-            int desktop_width = SCREENWIDTH;
-            int desktop_height = SCREENHEIGHT;
+            int desktop_width = SCREEN_WIDTH;
+            int desktop_height = SCREEN_HEIGHT;
 
             graphics.PreferredBackBufferWidth = desktop_width;
             graphics.PreferredBackBufferHeight = desktop_height;
@@ -65,7 +45,7 @@ namespace Game3D
 
             PresentationParameters pp = gpu.PresentationParameters;
             spriteBatch = new SpriteBatch(gpu);
-            MainTarget = new RenderTarget2D(gpu, SCREENWIDTH, SCREENHEIGHT, false, pp.BackBufferFormat, DepthFormat.Depth24);
+            MainTarget = new RenderTarget2D(gpu, SCREEN_WIDTH, SCREEN_HEIGHT, false, pp.BackBufferFormat, DepthFormat.Depth24);
             screenH = MainTarget.Height;
             screenW = MainTarget.Width;
             desktopRect = new Rectangle(0, 0, pp.BackBufferWidth, pp.BackBufferHeight);
@@ -76,39 +56,28 @@ namespace Game3D
 
         protected override void LoadContent()
         {
+            scene = new Scene(gpu, Content);
+            entity.Model = Content.Load<Model>("models/house");
+            entity.Texture = Content.Load<Texture2D>("textures/default_texture");
+            scene.AddEntity(entity);
+
             font = Content.Load<SpriteFont>("BasicFont");
-            mesh = Content.Load<Mesh>("models/Woman");
-
-            model = new UmbrellaToolsKit.Animation3D.Model(mesh, GraphicsDevice);
-            model.SetTexture(Content.Load<Texture2D>("textures/WomanTex"));
-            model.SetLightPosition(lightPosition);
-            model.SetEffect(Content.Load<Effect>("shaders/DiffuseLighting"));
-
-            restPose = mesh.Skeleton.GetRestPose();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            playbackTime = mesh.Clips[CurrentClip].Sample(restPose, playbackTime + ((float)gameTime.ElapsedGameTime.TotalSeconds));
-
+            scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Gray);
+            GraphicsDevice.Clear(Color.Black);
 
-            model.SetWorld(world);
-
-            model.Draw(GraphicsDevice, projection, view);
+            scene.Draw();
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, "Use (up, down) to change the animation", Vector2.Zero, Color.White);
-            spriteBatch.DrawString(font, $"Animation: {mesh.Clips[CurrentClip].mName}", Vector2.UnitY * 15, Color.White);
-            spriteBatch.DrawString(font, $"FPS: {1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds}", Vector2.UnitY * 45, Color.White);
+            spriteBatch.DrawString(font, $"FPS: {1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds}", Vector2.UnitY * 10, Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
