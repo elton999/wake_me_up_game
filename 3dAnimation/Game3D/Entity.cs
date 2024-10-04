@@ -45,7 +45,7 @@ public class Entity
                 Effect.Parameters["View"].SetValue(view);
                 Effect.Parameters["Projection"].SetValue(projection);
 
-                Effect.Parameters["lightPosition"].SetValue(Vector3.One * 1000);
+                Effect.Parameters["lightPosition"].SetValue(Vector3.One * 50);
                 Effect.Parameters["lightColor"].SetValue(Color.White.ToVector4());
                 Effect.Parameters["lightIntensity"].SetValue(1.0f);
                 Effect.Parameters["SpriteTexture"].SetValue(Texture);
