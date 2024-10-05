@@ -27,16 +27,27 @@ public class Camera
     public void MoveCamera(Vector3 move)
     {
         Position += move;
-        View = Matrix.CreateLookAt(Position, Target, Up);
-        ViewProjection = View * Projection;
+        UpdateCamera();
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        Position = position;
+        UpdateCamera();
     }
 
     public void UpdateTarget(Vector3 new_target)
     {
         Target = new_target;
-        View = Matrix.CreateLookAt(Position, Target, Position);
+        UpdateCamera();
+    }
+
+    private void UpdateCamera()
+    {
+        View = Matrix.CreateLookAt(Position, Target, Up);
         ViewProjection = View * Projection;
     }
+
 
     public void DebugUpdate(float deltaTime)
     {
