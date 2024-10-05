@@ -33,6 +33,7 @@ public class Scene
             entity.UpdateAnimation(deltaTime);
             entity.UpdateTransforms();
         }
+        Camera.DebugUpdate(deltaTime);
     }
 
     public void Draw()
