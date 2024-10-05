@@ -48,7 +48,6 @@ public class Camera
         ViewProjection = View * Projection;
     }
 
-
     public void DebugUpdate(float deltaTime)
     {
         float speed = 10.0f;

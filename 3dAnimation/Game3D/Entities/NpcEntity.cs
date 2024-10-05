@@ -11,5 +11,7 @@ public class NpcEntity : Entity
         Texture = Scene.Content.Load<Texture2D>(Path.SOLID_COLOR_TEXTURE_PATH);
         Effect = Scene.Content.Load<Effect>(Path.BASIC_SHADERS_PATH);
         ModelColor = Color.Red;
+
+        Position = new Vector3(1.0f, 3.0f, 0);
     }
 }
