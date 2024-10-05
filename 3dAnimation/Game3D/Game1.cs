@@ -57,6 +57,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _scene = new Scene(_gpu, Content);
+        _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 5.0f));
         _scene.AddEntity(new HouseEntity());
         _scene.AddEntity(new NpcEntity());
 
