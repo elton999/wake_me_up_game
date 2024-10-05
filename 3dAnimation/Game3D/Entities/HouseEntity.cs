@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game3D.Entities;
 
-public class HouseEntity : Entity
+public class HouseEntity : Entity3d
 {
     public override void Start()
     {

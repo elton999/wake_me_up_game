@@ -7,7 +7,8 @@ namespace Game3D;
 
 public class Scene
 {
-    private List<Entity> entities = new();
+    private List<Entity3d> _entities = new();
+    private List<UIEntity> _ui = new();
 
     public Camera Camera;
     public ContentManager Content;
@@ -18,16 +19,16 @@ public class Scene
         Content = content;
     }
 
-    public void AddEntity(Entity entity)
+    public void AddEntity3d(Entity3d entity)
     {
         entity.AddScene(this);
         entity.Start();
-        entities.Add(entity);
+        _entities.Add(entity);
     }
 
     public void Update(float deltaTime)
     {
-        foreach (var entity in entities)
+        foreach (var entity in _entities)
         {
             entity.Update(deltaTime);
             entity.UpdateAnimation(deltaTime);
@@ -38,7 +39,7 @@ public class Scene
 
     public void Draw()
     {
-        foreach (var entity in entities)
+        foreach (var entity in _entities)
         {
             entity.Draw(Camera.View, Camera.Projection);
         }

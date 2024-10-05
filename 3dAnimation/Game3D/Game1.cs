@@ -58,8 +58,8 @@ public class Game1 : Game
     {
         _scene = new Scene(_gpu, Content);
         _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 5.0f));
-        _scene.AddEntity(new HouseEntity());
-        _scene.AddEntity(new NpcEntity());
+        _scene.AddEntity3d(new HouseEntity());
+        _scene.AddEntity3d(new NpcEntity());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
     }

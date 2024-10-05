@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game3D.Entities;
 
-public class NpcEntity : Entity
+public class NpcEntity : Entity3d
 {
     public override void Start()
     {
