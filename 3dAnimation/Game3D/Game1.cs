@@ -1,4 +1,4 @@
-﻿using Game3D.Entites;
+﻿using Game3D.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -58,6 +58,7 @@ public class Game1 : Game
     {
         _scene = new Scene(_gpu, Content);
         _scene.AddEntity(new HouseEntity());
+        _scene.AddEntity(new NpcEntity());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
     }
@@ -75,7 +76,7 @@ public class Game1 : Game
         _scene.Draw();
 
         _spriteBatch.Begin();
-        _spriteBatch.DrawString(_font, $"FPS: {(int)(1.0f / (float)gameTime.ElapsedGameTime.TotalSeconds)}", Vector2.UnitY * 10, Color.White);
+        _spriteBatch.DrawString(_font, $"FPS: {(int)(1.0d / gameTime.ElapsedGameTime.TotalSeconds)}", Vector2.UnitY * 10, Color.White);
         _spriteBatch.DrawString(_font, $"Camera Position: {_scene.Camera.Position.ToString()}", Vector2.UnitY * 25, Color.White);
         _spriteBatch.End();
 

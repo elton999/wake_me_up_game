@@ -12,6 +12,7 @@ public static class Path
     public const string SOLID_COLOR_TEXTURE_PATH = TEXTURES_PATH + "default_white";
 
     public const string MODEL_HOUSE_PATH = MODELS_PATH + "house";
+    public const string MODEL_NPC_PATH = MODELS_PATH + "default_npc";
 
     public const string FONT_PATH = "BasicFont";
 }

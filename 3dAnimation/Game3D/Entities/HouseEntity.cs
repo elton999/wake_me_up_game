@@ -1,6 +1,7 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Game3D.Entites;
+namespace Game3D.Entities;
 
 public class HouseEntity : Entity
 {

@@ -10,6 +10,7 @@ public class Entity
     public Effect Effect;
     public Vector3 Position = new Vector3(0, 0, 0);
     public Matrix World;
+    public Color ModelColor = Color.White;
 
     private Scene _scene;
     public Scene Scene => _scene;
@@ -44,6 +45,7 @@ public class Entity
 
                 Effect.Parameters["lightPosition"].SetValue(Vector3.One * 50);
                 Effect.Parameters["lightColor"].SetValue(Color.White.ToVector4());
+                Effect.Parameters["modelColor"].SetValue(ModelColor.ToVector4());
                 Effect.Parameters["lightIntensity"].SetValue(1.0f);
                 Effect.Parameters["SpriteTexture"].SetValue(Texture);
             }
