@@ -74,7 +74,7 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        _scene.Draw();
+        _scene.Draw(_spriteBatch);
 
         _spriteBatch.Begin();
         _spriteBatch.DrawString(_font, $"FPS: {(int)(1.0d / gameTime.ElapsedGameTime.TotalSeconds)}", Vector2.UnitY * 10, Color.White);

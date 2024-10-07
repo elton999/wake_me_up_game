@@ -34,14 +34,27 @@ public class Scene
             entity.UpdateAnimation(deltaTime);
             entity.UpdateTransforms();
         }
+
+        foreach (var entity in _ui)
+        {
+            entity.Update(deltaTime);
+        }
+
         Camera.DebugUpdate(deltaTime);
     }
 
-    public void Draw()
+    public void Draw(SpriteBatch spriteBatch)
     {
         foreach (var entity in _entities)
         {
             entity.Draw(Camera.View, Camera.Projection);
         }
+
+        spriteBatch.Begin();
+        foreach (var entity in _ui)
+        {
+            entity.Draw(spriteBatch);
+        }
+        spriteBatch.End();
     }
 }
