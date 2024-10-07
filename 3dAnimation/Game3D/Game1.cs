@@ -1,4 +1,5 @@
 ﻿using Game3D.Entities;
+using Game3D.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -60,6 +61,7 @@ public class Game1 : Game
         _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 5.0f));
         _scene.AddEntity3d(new HouseEntity());
         _scene.AddEntity3d(new NpcEntity());
+        _scene.AddUI(new SequenceTimeLineUI());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
     }
