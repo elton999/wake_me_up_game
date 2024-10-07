@@ -26,6 +26,13 @@ public class Scene
         _entities.Add(entity);
     }
 
+    public void AddUI(UIEntity entity)
+    {
+        entity.AddScene(this);
+        entity.Start();
+        _ui.Add(entity);
+    }
+
     public void Update(float deltaTime)
     {
         foreach (var entity in _entities)
