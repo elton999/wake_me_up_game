@@ -1,4 +1,5 @@
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game3D.UI;
@@ -10,7 +11,7 @@ public class SequenceTimeLIneUI : UIEntity
 
     public override void Start()
     {
-
+        Sprite = Scene.Content.Load<Texture2D>(Path.SOLID_COLOR_TEXTURE_PATH);
     }
 
     public override void Update(float deltaTime)
@@ -20,6 +21,12 @@ public class SequenceTimeLIneUI : UIEntity
 
     public override void Draw(SpriteBatch spriteBatch)
     {
+        foreach (var key in _keysSequence.Keys)
+        {
+            var position = new Vector2(400.0f, 400.0f);
+            position -= Vector2.UnitX * (key.Time - _totalTime);
 
+            spriteBatch.Draw(Sprite, position, Color.White);
+        }
     }
 }
