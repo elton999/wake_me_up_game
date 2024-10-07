@@ -27,7 +27,6 @@ public class SequenceTimeLineUI : UIEntity
     public override void Update(float deltaTime)
     {
         _totalTime += deltaTime;
-        Console.WriteLine(_totalTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
