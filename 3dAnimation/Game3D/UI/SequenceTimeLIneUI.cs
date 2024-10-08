@@ -101,6 +101,15 @@ public class SequenceTimeLineUI : UIEntity
                 Console.WriteLine(key.GetTimer(_totalTime));
                 return;
             }
+
+            if (key.GetTimer(timer) <= _okTime)
+            {
+                _size += 1.0f;
+                key.Checked = true;
+                Console.WriteLine("Ok!");
+                Console.WriteLine(key.GetTimer(_totalTime));
+                return;
+            }
         }
     }
 
