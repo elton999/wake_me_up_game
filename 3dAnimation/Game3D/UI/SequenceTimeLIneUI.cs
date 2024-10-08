@@ -10,15 +10,21 @@ public class SequenceTimeLineUI : UIEntity
     private KeysSequence _keysSequence = new KeysSequence();
     private float _totalTime = 0f;
 
-
     private float _perfectTime = 0.03f;
     private float _goodTime = 0.07f;
+    private float _okTime = 0.15f;
+
     private float _offsetKeyPressing = 0.1f;
     private float _size = 1.0f;
 
     public override void Start()
     {
         Sprite = Scene.Content.Load<Texture2D>(Path.UP_TEXTURE_PATH);
+        SetUp();
+    }
+
+    private void SetUp()
+    {
         _keysSequence.Keys = new System.Collections.Generic.List<KeySequenceData>()
         {
             new KeySequenceData() { Time = 2.0f, Key = DirectionKey.UP},
@@ -60,8 +66,15 @@ public class SequenceTimeLineUI : UIEntity
 
     public override void Update(float deltaTime)
     {
+        if (KeyBoardHandler.KeyPressed("reset"))
+        {
+            _totalTime = 0.0f;
+            SetUp();
+        }
+
         _totalTime += deltaTime;
         float timer = _totalTime + _offsetKeyPressing;
+
 
         _size = MathF.Max(1.0f, _size - 10.0f * deltaTime);
 
@@ -96,7 +109,7 @@ public class SequenceTimeLineUI : UIEntity
         spriteBatch.Draw(Sprite, new Vector2(Game1.ScreenW / 2.0f, 400.0f), null, Color.Black, 0.0f, Sprite.Bounds.Size.ToVector2() / 2f, _size, SpriteEffects.None, 1.0f);
         foreach (var key in _keysSequence.Keys)
         {
-            spriteBatch.Draw(Sprite, key.GetPosition(_totalTime), null, Color.White, 0.0f, Sprite.Bounds.Size.ToVector2() / 2f, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(Sprite, key.GetPosition(_totalTime), null, key.Checked ? Color.Gray : Color.White, 0.0f, Sprite.Bounds.Size.ToVector2() / 2f, 1.0f, SpriteEffects.None, 1.0f);
         }
     }
 }
