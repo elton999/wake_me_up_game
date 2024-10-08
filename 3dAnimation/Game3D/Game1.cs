@@ -2,6 +2,8 @@
 using Game3D.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UmbrellaToolsKit.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace Game3D;
 public class Game1 : Game
@@ -64,10 +66,13 @@ public class Game1 : Game
         _scene.AddUI(new SequenceTimeLineUI());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
+
+        KeyBoardHandler.AddInput("up", Keys.Up);
     }
 
     protected override void Update(GameTime gameTime)
     {
+        KeyBoardHandler.SetInputData();
         _scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         base.Update(gameTime);
     }
