@@ -68,6 +68,7 @@ public class Game1 : Game
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
 
         KeyBoardHandler.AddInput("up", Keys.Up);
+        KeyBoardHandler.AddInput("reset", Keys.F1);
     }
 
     protected override void Update(GameTime gameTime)
