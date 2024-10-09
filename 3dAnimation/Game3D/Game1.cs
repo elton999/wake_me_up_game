@@ -72,7 +72,11 @@ public class Game1 : Game
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
 
-        KeyBoardHandler.AddInput("up", Keys.Up);
+        KeyBoardHandler.AddInput("up", new Keys[] { Keys.Up, Keys.W });
+        KeyBoardHandler.AddInput("down", new Keys[] { Keys.Down, Keys.S });
+        KeyBoardHandler.AddInput("left", new Keys[] { Keys.Left, Keys.A });
+        KeyBoardHandler.AddInput("right", new Keys[] { Keys.Right, Keys.D });
+
         KeyBoardHandler.AddInput("reset", Keys.F1);
     }
 
