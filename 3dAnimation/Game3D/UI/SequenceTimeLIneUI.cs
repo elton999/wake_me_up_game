@@ -28,8 +28,6 @@ public class SequenceTimeLineUI : UIEntity
         _spriteDown = Scene.Content.Load<Texture2D>(Path.DOWN_TEXTURE_PATH);
         _spriteRight = Scene.Content.Load<Texture2D>(Path.RIGHT_TEXTURE_PATH);
         _spriteLeft = Scene.Content.Load<Texture2D>(Path.LEFT_TEXTURE_PATH);
-
-        Sprite = Scene.Content.Load<Texture2D>(Path.UI_CHAR_TEXTURE_PATH);
         SetUp();
     }
 
@@ -127,15 +125,17 @@ public class SequenceTimeLineUI : UIEntity
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Vector2 originBackground = Sprite.Bounds.Size.ToVector2() / 2f;
-        Vector2 positionBackground = new Vector2(Game1.ScreenW / 2.0f, originBackground.Y + 100.0f);
-        spriteBatch.Draw(Sprite, positionBackground, null, Color.White, 0.0f, originBackground, 1.0f, SpriteEffects.None, 1.0f);
-
-        spriteBatch.Draw(_spriteUp, new Vector2(95.0f, 130.0f), null, Color.Black, 0.0f, _spriteUp.Bounds.Size.ToVector2() / 2f, _size, SpriteEffects.None, 1.0f);
+        DrawSprite(spriteBatch, _spriteUp, new Vector2(95.0f, 130.0f), Color.Black, _size);
 
         foreach (var key in _keysSequence.Keys)
         {
-            spriteBatch.Draw(_spriteUp, key.GetPosition(_totalTime, new Vector2(95.0f, 130.0f)), null, key.Checked ? Color.Gray : Color.White, 0.0f, _spriteUp.Bounds.Size.ToVector2() / 2f, 1.0f, SpriteEffects.None, 1.0f);
+            var color = key.Checked ? Color.Gray : Color.White;
+            DrawSprite(spriteBatch, _spriteUp, key.GetPosition(_totalTime, new Vector2(95.0f, 130.0f)), color);
         }
+    }
+
+    public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Color color, float size = 1.0f)
+    {
+        spriteBatch.Draw(texture, position, null, color, 0.0f, texture.Bounds.Size.ToVector2() / 2f, size, SpriteEffects.None, 1.0f);
     }
 }

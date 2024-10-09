@@ -63,8 +63,11 @@ public class Game1 : Game
         _scene = new Scene(_gpu, Content);
         _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 7.0f));
         _scene.Camera.UpdateTarget(new Vector3(0.0f, 0.0f, 3.0f));
+
         _scene.AddEntity3d(new HouseEntity());
         _scene.AddEntity3d(new NpcEntity());
+
+        _scene.AddUI(new CharBoardUI());
         _scene.AddUI(new SequenceTimeLineUI());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
@@ -88,7 +91,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
         _spriteBatch.DrawString(_font, $"FPS: {(int)(1.0d / gameTime.ElapsedGameTime.TotalSeconds)}", Vector2.UnitY * 10, Color.White);
-        _spriteBatch.DrawString(_font, $"Camera Position: {_scene.Camera.Position.ToString()}", Vector2.UnitY * 25, Color.White);
+        _spriteBatch.DrawString(_font, $"Camera Position: {_scene.Camera.Position}", Vector2.UnitY * 25, Color.White);
         _spriteBatch.End();
 
         base.Draw(gameTime);
