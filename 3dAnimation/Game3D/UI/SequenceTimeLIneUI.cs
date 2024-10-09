@@ -126,6 +126,9 @@ public class SequenceTimeLineUI : UIEntity
     public override void Draw(SpriteBatch spriteBatch)
     {
         DrawSprite(spriteBatch, _spriteUp, new Vector2(95.0f, 130.0f), Color.Black, _size);
+        DrawSprite(spriteBatch, _spriteRight, new Vector2(95.0f, 170.0f), Color.Black, _size);
+        DrawSprite(spriteBatch, _spriteDown, new Vector2(95.0f, 210.0f), Color.Black, _size);
+        DrawSprite(spriteBatch, _spriteLeft, new Vector2(95.0f, 250.0f), Color.Black, _size);
 
         foreach (var key in _keysSequence.Keys)
         {
