@@ -15,7 +15,7 @@ public enum DirectionKey
 public class KeySequenceData
 {
     public float Time;
-    public DirectionKey Key;
+    public DirectionKey KeyDirection;
     public bool Checked;
 
     public Vector2 GetPosition(float currentTimer, Vector2 position)

@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,7 +6,8 @@ namespace Game3D.UI;
 public class CharBoardUI : UIEntity
 {
     private Vector2 _origin => Sprite.Bounds.Size.ToVector2() / 2f;
-    private Vector2 _position => new Vector2(Game1.ScreenW / 2.0f, _origin.Y + 100.0f);
+    private Vector2 positionOffset => Vector2.UnitY * 85f;
+    private Vector2 _position => new Vector2(Game1.ScreenW / 2.0f, _origin.Y) + positionOffset;
 
     public override void Start()
     {
