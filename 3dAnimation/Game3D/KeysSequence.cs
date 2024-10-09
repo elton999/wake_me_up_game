@@ -17,9 +17,8 @@ public class KeySequenceData
     public DirectionKey Key;
     public bool Checked;
 
-    public Vector2 GetPosition(float currentTimer)
+    public Vector2 GetPosition(float currentTimer, Vector2 position)
     {
-        var position = new Vector2(Game1.ScreenW / 2.0f, 400.0f);
         position += Vector2.UnitX * GetTimer(currentTimer) * 200.0f;
         return position;
     }

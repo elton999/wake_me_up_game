@@ -17,9 +17,19 @@ public class SequenceTimeLineUI : UIEntity
     private float _offsetKeyPressing = 0.1f;
     private float _size = 1.0f;
 
+    private Texture2D _spriteUp;
+    private Texture2D _spriteDown;
+    private Texture2D _spriteRight;
+    private Texture2D _spriteLeft;
+
     public override void Start()
     {
-        Sprite = Scene.Content.Load<Texture2D>(Path.UP_TEXTURE_PATH);
+        _spriteUp = Scene.Content.Load<Texture2D>(Path.UP_TEXTURE_PATH);
+        _spriteDown = Scene.Content.Load<Texture2D>(Path.DOWN_TEXTURE_PATH);
+        _spriteRight = Scene.Content.Load<Texture2D>(Path.RIGHT_TEXTURE_PATH);
+        _spriteLeft = Scene.Content.Load<Texture2D>(Path.LEFT_TEXTURE_PATH);
+
+        Sprite = Scene.Content.Load<Texture2D>(Path.UI_CHAR_TEXTURE_PATH);
         SetUp();
     }
 
@@ -111,14 +121,21 @@ public class SequenceTimeLineUI : UIEntity
                 return;
             }
         }
+
+        Console.WriteLine("wrong!");
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(Sprite, new Vector2(Game1.ScreenW / 2.0f, 400.0f), null, Color.Black, 0.0f, Sprite.Bounds.Size.ToVector2() / 2f, _size, SpriteEffects.None, 1.0f);
+        Vector2 originBackground = Sprite.Bounds.Size.ToVector2() / 2f;
+        Vector2 positionBackground = new Vector2(Game1.ScreenW / 2.0f, originBackground.Y + 100.0f);
+        spriteBatch.Draw(Sprite, positionBackground, null, Color.White, 0.0f, originBackground, 1.0f, SpriteEffects.None, 1.0f);
+
+        spriteBatch.Draw(_spriteUp, new Vector2(95.0f, 130.0f), null, Color.Black, 0.0f, _spriteUp.Bounds.Size.ToVector2() / 2f, _size, SpriteEffects.None, 1.0f);
+
         foreach (var key in _keysSequence.Keys)
         {
-            spriteBatch.Draw(Sprite, key.GetPosition(_totalTime), null, key.Checked ? Color.Gray : Color.White, 0.0f, Sprite.Bounds.Size.ToVector2() / 2f, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(_spriteUp, key.GetPosition(_totalTime, new Vector2(95.0f, 130.0f)), null, key.Checked ? Color.Gray : Color.White, 0.0f, _spriteUp.Bounds.Size.ToVector2() / 2f, 1.0f, SpriteEffects.None, 1.0f);
         }
     }
 }

@@ -10,6 +10,7 @@ public class Game1 : Game
 {
     public const int SCREEN_WIDTH = 1024, SCREEN_HEIGHT = 768;
     public static int ScreenW, ScreenH;
+    public Color BackgroundColor => new Color(24, 20, 37, 255);
 
     private GraphicsDeviceManager _graphics;
     private GraphicsDevice _gpu;
@@ -60,7 +61,8 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _scene = new Scene(_gpu, Content);
-        _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 5.0f));
+        _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 7.0f));
+        _scene.Camera.UpdateTarget(new Vector3(0.0f, 0.0f, 3.0f));
         _scene.AddEntity3d(new HouseEntity());
         _scene.AddEntity3d(new NpcEntity());
         _scene.AddUI(new SequenceTimeLineUI());
@@ -80,7 +82,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(BackgroundColor);
 
         _scene.Draw(_spriteBatch);
 
