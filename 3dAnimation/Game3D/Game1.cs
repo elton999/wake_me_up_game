@@ -1,12 +1,16 @@
 ﻿using Game3D.Entities;
+using Game3D.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UmbrellaToolsKit.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace Game3D;
 public class Game1 : Game
 {
     public const int SCREEN_WIDTH = 1024, SCREEN_HEIGHT = 768;
     public static int ScreenW, ScreenH;
+    public Color BackgroundColor => new Color(24, 20, 37, 255);
 
     private GraphicsDeviceManager _graphics;
     private GraphicsDevice _gpu;
@@ -57,28 +61,41 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _scene = new Scene(_gpu, Content);
-        _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 5.0f));
+        _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 7.0f));
+        _scene.Camera.UpdateTarget(new Vector3(0.0f, 0.0f, 3.0f));
+
         _scene.AddEntity3d(new HouseEntity());
         _scene.AddEntity3d(new NpcEntity());
 
+        _scene.AddUI(new CharBoardUI());
+        _scene.AddUI(new SequenceTimeLineUI());
+
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
+
+        KeyBoardHandler.AddInput("up", new Keys[] { Keys.Up, Keys.W });
+        KeyBoardHandler.AddInput("down", new Keys[] { Keys.Down, Keys.S });
+        KeyBoardHandler.AddInput("left", new Keys[] { Keys.Left, Keys.A });
+        KeyBoardHandler.AddInput("right", new Keys[] { Keys.Right, Keys.D });
+
+        KeyBoardHandler.AddInput("reset", Keys.F1);
     }
 
     protected override void Update(GameTime gameTime)
     {
+        KeyBoardHandler.SetInputData();
         _scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(BackgroundColor);
 
-        _scene.Draw();
+        _scene.Draw(_spriteBatch);
 
         _spriteBatch.Begin();
         _spriteBatch.DrawString(_font, $"FPS: {(int)(1.0d / gameTime.ElapsedGameTime.TotalSeconds)}", Vector2.UnitY * 10, Color.White);
-        _spriteBatch.DrawString(_font, $"Camera Position: {_scene.Camera.Position.ToString()}", Vector2.UnitY * 25, Color.White);
+        _spriteBatch.DrawString(_font, $"Camera Position: {_scene.Camera.Position}", Vector2.UnitY * 25, Color.White);
         _spriteBatch.End();
 
         base.Draw(gameTime);
