@@ -24,7 +24,6 @@ public class SequenceTimeLineUI : UIEntity
     private float _okTime = 0.15f;
 
     private float _offsetKeyPressing = 0.1f;
-    private float _size = 1.0f;
 
     public override void Start()
     {
@@ -49,13 +48,13 @@ public class SequenceTimeLineUI : UIEntity
         _keysSequence.Keys = new List<KeySequenceData>()
         {
             new KeySequenceData() { Time = 2.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 2.10f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 3.30f, KeyDirection = DirectionKey.UP},
+            new KeySequenceData() { Time = 2.10f, KeyDirection = DirectionKey.RIGHT},
+            new KeySequenceData() { Time = 3.30f, KeyDirection = DirectionKey.RIGHT},
             new KeySequenceData() { Time = 4.0f, KeyDirection = DirectionKey.UP},
             new KeySequenceData() { Time = 5.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 6.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 6.30f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 6.60f, KeyDirection = DirectionKey.UP},
+            new KeySequenceData() { Time = 6.30f, KeyDirection = DirectionKey.DOWN},
+            new KeySequenceData() { Time = 6.30f, KeyDirection = DirectionKey.LEFT},
+            new KeySequenceData() { Time = 6.60f, KeyDirection = DirectionKey.LEFT},
             new KeySequenceData() { Time = 7.0f, KeyDirection = DirectionKey.UP},
             new KeySequenceData() { Time = 7.20f, KeyDirection = DirectionKey.UP},
             new KeySequenceData() { Time = 7.40f, KeyDirection = DirectionKey.UP},
@@ -94,20 +93,36 @@ public class SequenceTimeLineUI : UIEntity
         }
 
         _totalTime += deltaTime;
+
+        UpdateSizeAnimation(DirectionKey.UP, deltaTime);
+        UpdateSizeAnimation(DirectionKey.DOWN, deltaTime);
+        UpdateSizeAnimation(DirectionKey.LEFT, deltaTime);
+        UpdateSizeAnimation(DirectionKey.RIGHT, deltaTime);
+
+        if (KeyBoardHandler.KeyPressed("up"))
+            OnPressButton(DirectionKey.UP);
+        if (KeyBoardHandler.KeyPressed("down"))
+            OnPressButton(DirectionKey.DOWN);
+        if (KeyBoardHandler.KeyPressed("left"))
+            OnPressButton(DirectionKey.LEFT);
+        if (KeyBoardHandler.KeyPressed("right"))
+            OnPressButton(DirectionKey.RIGHT);
+
+    }
+
+    public void OnPressButton(DirectionKey direction)
+    {
         float timer = _totalTime + _offsetKeyPressing;
-
-
-        _size = MathF.Max(1.0f, _size - 10.0f * deltaTime);
-
-        if (!KeyBoardHandler.KeyPressed("up")) return;
 
         foreach (var key in _keysSequence.Keys)
         {
+            if (key.KeyDirection != direction) continue;
             if (key.Checked) continue;
             if (key.GetTimer(_totalTime) < 0.0f) continue;
+
             if (key.GetTimer(timer) <= _perfectTime)
             {
-                _size += 1.0f;
+                _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
                 Console.WriteLine("Perfect!");
                 Console.WriteLine(key.GetTimer(_totalTime));
@@ -116,7 +131,7 @@ public class SequenceTimeLineUI : UIEntity
 
             if (key.GetTimer(timer) <= _goodTime)
             {
-                _size += 1.0f;
+                _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
                 Console.WriteLine("Good!");
                 Console.WriteLine(key.GetTimer(_totalTime));
@@ -125,14 +140,13 @@ public class SequenceTimeLineUI : UIEntity
 
             if (key.GetTimer(timer) <= _okTime)
             {
-                _size += 1.0f;
+                _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
                 Console.WriteLine("Ok!");
                 Console.WriteLine(key.GetTimer(_totalTime));
                 return;
             }
         }
-
         Console.WriteLine("wrong!");
     }
 
@@ -154,5 +168,10 @@ public class SequenceTimeLineUI : UIEntity
     public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Color color, float size = 1.0f)
     {
         spriteBatch.Draw(texture, position, null, color, 0.0f, texture.Bounds.Size.ToVector2() / 2f, size, SpriteEffects.None, 1.0f);
+    }
+
+    private void UpdateSizeAnimation(DirectionKey directionKey, float deltaTime)
+    {
+        _keySettings[directionKey].Size = MathF.Max(1.0f, _keySettings[directionKey].Size - 10.0f * deltaTime);
     }
 }
