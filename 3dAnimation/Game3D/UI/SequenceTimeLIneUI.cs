@@ -45,43 +45,7 @@ public class SequenceTimeLineUI : UIEntity
 
     private void SetUp()
     {
-        _keysSequence.Keys = new List<KeySequenceData>()
-        {
-            new KeySequenceData() { Time = 2.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 2.10f, KeyDirection = DirectionKey.RIGHT},
-            new KeySequenceData() { Time = 3.30f, KeyDirection = DirectionKey.RIGHT},
-            new KeySequenceData() { Time = 4.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 5.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 6.30f, KeyDirection = DirectionKey.DOWN},
-            new KeySequenceData() { Time = 6.30f, KeyDirection = DirectionKey.LEFT},
-            new KeySequenceData() { Time = 6.60f, KeyDirection = DirectionKey.LEFT},
-            new KeySequenceData() { Time = 7.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 7.20f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 7.40f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 8.60f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 9.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 9.20f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 9.40f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 9.60f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 9.90f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 10.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 10.10f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 11.30f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 12.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 13.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 14.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 14.30f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 14.60f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 16.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 16.20f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 16.40f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 17.60f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 17.0f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 17.20f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 17.40f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 17.60f, KeyDirection = DirectionKey.UP},
-            new KeySequenceData() { Time = 17.90f, KeyDirection = DirectionKey.UP},
-        };
+        _keysSequence.Keys = Levels.GetLevel1();
     }
 
     public override void Update(float deltaTime)
