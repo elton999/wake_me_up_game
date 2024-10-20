@@ -15,6 +15,8 @@ public class ArrowsDirection
 
 public class SequenceTimeLineUI : UIEntity
 {
+    public static Action<ScoreType> OnGetAnScoreEvent;
+
     private KeysSequence _keysSequence = new KeysSequence();
     private float _totalTime = 0f;
     private Dictionary<DirectionKey, ArrowsDirection> _keySettings;
@@ -71,7 +73,6 @@ public class SequenceTimeLineUI : UIEntity
             OnPressButton(DirectionKey.LEFT);
         if (KeyBoardHandler.KeyPressed("right"))
             OnPressButton(DirectionKey.RIGHT);
-
     }
 
     public void OnPressButton(DirectionKey direction)
@@ -89,6 +90,7 @@ public class SequenceTimeLineUI : UIEntity
                 _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
                 Console.WriteLine("Perfect!");
+                OnGetAnScoreEvent.Invoke(ScoreType.Perfect);
                 Console.WriteLine(key.GetTimer(_totalTime));
                 return;
             }
@@ -98,6 +100,7 @@ public class SequenceTimeLineUI : UIEntity
                 _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
                 Console.WriteLine("Good!");
+                OnGetAnScoreEvent.Invoke(ScoreType.Good);
                 Console.WriteLine(key.GetTimer(_totalTime));
                 return;
             }
@@ -107,11 +110,13 @@ public class SequenceTimeLineUI : UIEntity
                 _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
                 Console.WriteLine("Ok!");
+                OnGetAnScoreEvent.Invoke(ScoreType.Ok);
                 Console.WriteLine(key.GetTimer(_totalTime));
                 return;
             }
         }
         Console.WriteLine("wrong!");
+        OnGetAnScoreEvent.Invoke(ScoreType.Wrong);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

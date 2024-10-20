@@ -69,6 +69,7 @@ public class Game1 : Game
 
         _scene.AddUI(new CharBoardUI());
         _scene.AddUI(new SequenceTimeLineUI());
+        _scene.AddUI(new WordsFeedbacksUI());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
 
