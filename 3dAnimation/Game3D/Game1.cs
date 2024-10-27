@@ -61,7 +61,6 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _scene = new Scene(_gpu, Content);
-        _scene.Camera.SetPosition(new Vector3(14.5f, 6.8f, 7.0f));
         _scene.Camera.UpdateTarget(new Vector3(0.0f, 0.0f, 3.0f));
 
         _scene.AddEntity3d(new HouseEntity());
@@ -70,6 +69,7 @@ public class Game1 : Game
         _scene.AddUI(new CharBoardUI());
         _scene.AddUI(new SequenceTimeLineUI());
         _scene.AddUI(new WordsFeedbacksUI());
+        _scene.AddUI(new CameraController());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);
 

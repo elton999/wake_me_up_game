@@ -54,8 +54,9 @@ public class SequenceTimeLineUI : UIEntity
         foreach (var key in _keysSequence.Keys)
             if(key.Time > lastTime)
                 lastTime = key.Time;
-
-        _timerCallback = new Timer(lastTime, delegate { OnFinishEvent?.Invoke(); });
+        
+        float delay = 1.0f;
+        _timerCallback = new Timer(lastTime + delay, delegate { OnFinishEvent?.Invoke(); });
     }
 
     public override void Update(float deltaTime)
