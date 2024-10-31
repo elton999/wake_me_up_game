@@ -33,12 +33,11 @@ public class ScoreHandler
 
     public int GetScoreValue(ScoreType scoreType)
     {
-        int score = 0;
-        int  index = Array.IndexOf(ScoreTable, new ScoreValue() {Type = scoreType});
-
-        if(index != -1) score = ScoreTable[index].Score;
-
-        return score;
+        for(int scoreIndex = 0; scoreIndex < ScoreTable.Length; scoreIndex++)
+            if(ScoreTable[scoreIndex].Type == scoreType)
+                return ScoreTable[scoreIndex].Score;
+                
+        return 0;
     }
 
     public void AddScore(ScoreType scoreType)
