@@ -63,11 +63,13 @@ public class Game1 : Game
         _scene = new Scene(_gpu, Content);
         _scene.Camera.UpdateTarget(new Vector3(0.0f, 0.0f, 3.0f));
 
+        var scoreHandler = new ScoreHandler();
+
         _scene.AddEntity3d(new HouseEntity());
         _scene.AddEntity3d(new NpcEntity());
 
         _scene.AddUI(new CharBoardUI());
-        _scene.AddUI(new SequenceTimeLineUI());
+        _scene.AddUI(new SequenceTimeLineUI(scoreHandler));
         _scene.AddUI(new WordsFeedbacksUI());
         _scene.AddUI(new CameraController());
 

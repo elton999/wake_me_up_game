@@ -16,6 +16,7 @@ public class ArrowsDirection
 public class SequenceTimeLineUI : UIEntity
 {
     public static Action<ScoreType> OnGetAnScoreEvent;
+    public static Action OnStartNewLevelEvent;
     public static Action OnFinishEvent;
 
     private KeysSequence _keysSequence = new KeysSequence();
@@ -27,7 +28,16 @@ public class SequenceTimeLineUI : UIEntity
     private float _okTime = 0.15f;
     private float _offsetKeyPressing = 0.1f;
 
+    private ScoreHandler _scoreHandler;
+
     private Timer _timerCallback = new Timer();
+
+
+    public SequenceTimeLineUI(ScoreHandler scoreHandler)
+    {
+        _scoreHandler = scoreHandler;
+    }
+
 
     public override void Start()
     {
@@ -57,6 +67,8 @@ public class SequenceTimeLineUI : UIEntity
         
         float delay = 1.0f;
         _timerCallback = new Timer(lastTime + delay, delegate { OnFinishEvent?.Invoke(); });
+
+        OnStartNewLevelEvent?.Invoke();
     }
 
     public override void Update(float deltaTime)

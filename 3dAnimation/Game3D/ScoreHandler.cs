@@ -31,17 +31,29 @@ public class ScoreHandler
 
     public int Score;
 
+    public ScoreHandler()
+    {
+        SequenceTimeLineUI.OnStartNewLevelEvent += StartLevel;
+        SequenceTimeLineUI.OnGetAnScoreEvent += AddScore;
+    }
+
+    public void StartLevel()
+    {
+        Score = 0;
+    }
+
     public int GetScoreValue(ScoreType scoreType)
     {
         for(int scoreIndex = 0; scoreIndex < ScoreTable.Length; scoreIndex++)
             if(ScoreTable[scoreIndex].Type == scoreType)
                 return ScoreTable[scoreIndex].Score;
-                
+
         return 0;
     }
 
     public void AddScore(ScoreType scoreType)
     {
         Score += GetScoreValue(scoreType);
+        Console.WriteLine($"Score: {Score}");
     }
 }
