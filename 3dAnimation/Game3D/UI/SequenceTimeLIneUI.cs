@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Game3D.Entities;
+using Game3D.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using UmbrellaToolsKit.Input;
@@ -15,7 +17,6 @@ public class ArrowsDirection
 
 public class SequenceTimeLineUI : UIEntity
 {
-    public static Action<ScoreType> OnGetAnScoreEvent;
     public static Action OnStartNewLevelEvent;
     public static Action OnFinishEvent;
 
@@ -28,16 +29,17 @@ public class SequenceTimeLineUI : UIEntity
     private float _okTime = 0.15f;
     private float _offsetKeyPressing = 0.1f;
 
-    private ScoreHandler _scoreHandler;
+    private IOnGotScore _scoreDataHandler;
+    private IOnGotScore _scoreVisualHandler;
 
     private Timer _timerCallback = new Timer();
 
 
-    public SequenceTimeLineUI(ScoreHandler scoreHandler)
+    public SequenceTimeLineUI(IOnGotScore scoreDataHandler, IOnGotScore scoreVisualHandler)
     {
-        _scoreHandler = scoreHandler;
+        _scoreDataHandler = scoreDataHandler;
+        _scoreVisualHandler = scoreVisualHandler;
     }
-
 
     public override void Start()
     {
@@ -66,7 +68,11 @@ public class SequenceTimeLineUI : UIEntity
                 lastTime = key.Time;
         
         float delay = 1.0f;
-        _timerCallback = new Timer(lastTime + delay, delegate { OnFinishEvent?.Invoke(); });
+        _timerCallback = new Timer(lastTime + delay, delegate 
+        { 
+            OnFinishEvent?.Invoke(); 
+            GameStates.SwitchState(GameStates.State.END_LEVEL);
+        });
 
         OnStartNewLevelEvent?.Invoke();
     }
@@ -78,6 +84,8 @@ public class SequenceTimeLineUI : UIEntity
             _totalTime = 0.0f;
             SetUp();
         }
+
+        if(GameStates.CurrentState != GameStates.State.PLAYING) return;
 
         _totalTime += deltaTime;
         _timerCallback.Update(deltaTime);
@@ -109,44 +117,49 @@ public class SequenceTimeLineUI : UIEntity
 
             if (key.GetTimer(timer) <= _perfectTime)
             {
-                _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
-                Console.WriteLine("Perfect!");
-                OnGetAnScoreEvent.Invoke(ScoreType.Perfect);
-                Console.WriteLine(key.GetTimer(_totalTime));
+                RegisterScore(direction, ScoreType.Perfect);
                 return;
             }
 
             if (key.GetTimer(timer) <= _goodTime)
             {
-                _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
-                Console.WriteLine("Good!");
-                OnGetAnScoreEvent.Invoke(ScoreType.Good);
-                Console.WriteLine(key.GetTimer(_totalTime));
+                RegisterScore(direction, ScoreType.Good);
                 return;
             }
 
             if (key.GetTimer(timer) <= _okTime)
             {
-                _keySettings[direction].Size += 1.0f;
                 key.Checked = true;
-                Console.WriteLine("Ok!");
-                OnGetAnScoreEvent.Invoke(ScoreType.Ok);
-                Console.WriteLine(key.GetTimer(_totalTime));
+                RegisterScore(direction, ScoreType.Ok);
                 return;
             }
         }
-        Console.WriteLine("wrong!");
-        OnGetAnScoreEvent.Invoke(ScoreType.Wrong);
+
+        SetScoreForIntegrations(ScoreType.Wrong);
+    }
+
+    public void RegisterScore(DirectionKey direction, ScoreType score)
+    {
+        _keySettings[direction].Size += 1.0f;
+        SetScoreForIntegrations(score);
+    }
+
+    public void SetScoreForIntegrations(ScoreType score)
+    {
+        _scoreDataHandler.OnGotScore(score);
+        _scoreVisualHandler.OnGotScore(score);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        DrawSprite(spriteBatch, _keySettings[DirectionKey.UP].Sprite, _keySettings[DirectionKey.UP].Position, Color.Black, _keySettings[DirectionKey.UP].Size);
-        DrawSprite(spriteBatch, _keySettings[DirectionKey.RIGHT].Sprite, _keySettings[DirectionKey.RIGHT].Position, Color.Black, _keySettings[DirectionKey.RIGHT].Size);
-        DrawSprite(spriteBatch, _keySettings[DirectionKey.DOWN].Sprite, _keySettings[DirectionKey.DOWN].Position, Color.Black, _keySettings[DirectionKey.DOWN].Size);
-        DrawSprite(spriteBatch, _keySettings[DirectionKey.LEFT].Sprite, _keySettings[DirectionKey.LEFT].Position, Color.Black, _keySettings[DirectionKey.LEFT].Size);
+        if(GameStates.CurrentState != GameStates.State.PLAYING) return;
+
+        DrawArrow(spriteBatch, DirectionKey.UP);
+        DrawArrow(spriteBatch, DirectionKey.RIGHT);
+        DrawArrow(spriteBatch, DirectionKey.DOWN);
+        DrawArrow(spriteBatch, DirectionKey.LEFT);
 
         foreach (var key in _keysSequence.Keys)
         {
@@ -154,6 +167,11 @@ public class SequenceTimeLineUI : UIEntity
             var position = key.GetPosition(_totalTime, _keySettings[key.KeyDirection].Position);
             DrawSprite(spriteBatch, _keySettings[key.KeyDirection].Sprite, position, color);
         }
+    }
+
+    public void DrawArrow(SpriteBatch spriteBatch, DirectionKey directionKey)
+    {
+        DrawSprite(spriteBatch, _keySettings[directionKey].Sprite, _keySettings[directionKey].Position, Color.Black, _keySettings[directionKey].Size);
     }
 
     public void DrawSprite(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Color color, float size = 1.0f)

@@ -1,9 +1,10 @@
 using System;
 using Game3D.UI;
+using Game3D.Interfaces;
 
 namespace Game3D;
 
-public class ScoreHandler
+public class ScoreHandler : IOnGotScore
 {
     public struct ScoreValue
     {
@@ -34,7 +35,6 @@ public class ScoreHandler
     public ScoreHandler()
     {
         SequenceTimeLineUI.OnStartNewLevelEvent += StartLevel;
-        SequenceTimeLineUI.OnGetAnScoreEvent += AddScore;
     }
 
     public void StartLevel()
@@ -51,7 +51,7 @@ public class ScoreHandler
         return 0;
     }
 
-    public void AddScore(ScoreType scoreType)
+    public void OnGotScore(ScoreType scoreType)
     {
         Score += GetScoreValue(scoreType);
         Console.WriteLine($"Score: {Score}");

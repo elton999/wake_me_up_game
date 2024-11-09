@@ -69,8 +69,9 @@ public class Game1 : Game
         _scene.AddEntity3d(new NpcEntity());
 
         _scene.AddUI(new CharBoardUI());
-        _scene.AddUI(new SequenceTimeLineUI(scoreHandler));
-        _scene.AddUI(new WordsFeedbacksUI());
+        var wordsFeedback = new WordsFeedbacksUI();
+        _scene.AddUI(wordsFeedback);
+        _scene.AddUI(new SequenceTimeLineUI(scoreHandler, wordsFeedback));
         _scene.AddUI(new CameraController());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);

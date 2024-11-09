@@ -1,3 +1,5 @@
+using System;
+using Game3D.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,7 +13,7 @@ public enum ScoreType
     Wrong
 }
 
-public class WordsFeedbacksUI : UIEntity
+public class WordsFeedbacksUI : UIEntity, IOnGotScore
 {
     private Texture2D _perfectSprite;
     private Texture2D _goodSprite;
@@ -22,9 +24,10 @@ public class WordsFeedbacksUI : UIEntity
     private Vector2 _origin => new Vector2(Sprite.Bounds.Width / 2.0f, Sprite.Bounds.Height / 2.0f);
     private float _size = 0.0f;
     private float _transparency = 1.0f;
-    private float _speed = 5.0f;
-    private float _timeToLive = 0.5f;
     private float _totalTime = 0.0f;
+    private const float SPEED = 5.0f;
+    private const float TIME_TO_LEAVE = 0.5f;
+    private const float MAX_SPRITE_SIZE = 1.0f;
 
     public override void Start()
     {
@@ -32,23 +35,20 @@ public class WordsFeedbacksUI : UIEntity
         _goodSprite = Scene.Content.Load<Texture2D>(Path.GOOD_TEXTURE_PATH);
         _okSprite = Scene.Content.Load<Texture2D>(Path.OK_TEXTURE_PATH);
         _wrongSprite = Scene.Content.Load<Texture2D>(Path.WRONG_TEXTURE_PATH);
-
-        SequenceTimeLineUI.OnGetAnScoreEvent += ShowTypeOfScore;
     }
 
     public override void Update(float deltaTime)
     {
-        _size += _speed * deltaTime;
-        if (_size <= 1.0f) return;
+        _size += SPEED * deltaTime;
+        if (_size <= MAX_SPRITE_SIZE) return;
 
-        _size = 1.0f;
+        _size = MAX_SPRITE_SIZE;
 
         _totalTime += deltaTime;
-        if (_totalTime <= _timeToLive) return;
+        if (_totalTime <= TIME_TO_LEAVE) return;
 
-        _transparency -= _speed * deltaTime;
-
-        if (_transparency < 0.0f) _transparency = 0.0f;
+        _transparency -= SPEED * deltaTime;
+        _transparency = MathF.Max(0.0f, _transparency);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -57,7 +57,7 @@ public class WordsFeedbacksUI : UIEntity
         spriteBatch.Draw(Sprite, _center, null, Color.White * _transparency, 0.0f, _origin, _size, SpriteEffects.None, 1.0f);
     }
 
-    public void ShowTypeOfScore(ScoreType scoreType)
+    public void OnGotScore(ScoreType scoreType)
     {
         switch (scoreType)
         {
