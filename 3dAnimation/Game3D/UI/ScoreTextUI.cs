@@ -1,3 +1,4 @@
+using System;
 using Game3D.Entities;
 using Game3D.Interfaces;
 using Microsoft.Xna.Framework;
@@ -9,11 +10,14 @@ public class ScoreTextUI : UIEntity, IScore
 {
     private const int MAX_NUMBERS = 9;
     private const float NUMBER_WIDTH_SIZE = 22;
+    private const float DELAY_TO_SHOW_SCORE = 2.0f;
     private ISpritesCoord _numberSprites;
     private IScore _scoreData;
     
     public ISpritesCoord NumberSprites => _numberSprites;
     public IScore ScoreData => _scoreData;
+
+    public ITimerPercent TextAnimationTimer;
 
     public int Score { get; set; }
 
@@ -34,14 +38,17 @@ public class ScoreTextUI : UIEntity, IScore
     {
         if(GameStates.CurrentState == GameStates.State.END_LEVEL)
         {
-            if(Score < ScoreData.Score)
-                Score++;
+            TextAnimationTimer ??= new TimerPercent(DELAY_TO_SHOW_SCORE);
+            TextAnimationTimer.Update(deltaTime);
+
+            Score = (int)Math.Clamp(TextAnimationTimer.PercentTotal * ScoreData.Score, 0, ScoreData.Score);
             return;
         }
 
         if(GameStates.CurrentState == GameStates.State.PLAYING)
         {
             Score = 0;
+            TextAnimationTimer = null;
             return;
         }
         
