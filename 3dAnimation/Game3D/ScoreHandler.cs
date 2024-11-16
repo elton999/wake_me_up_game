@@ -4,11 +4,11 @@ using Game3D.Interfaces;
 
 namespace Game3D;
 
-public class ScoreHandler : IOnGotScore
+public class ScoreHandler : IOnGotScore, IScore
 {
-    public struct ScoreValue
+    public struct ScoreValue : IScore
     {
-        public int Score;
+        public int Score {get; set;}
         public ScoreType Type;
 
         public static bool operator ==(ScoreValue a, ScoreValue b)
@@ -30,17 +30,14 @@ public class ScoreHandler : IOnGotScore
         new ScoreValue { Score = -50, Type = ScoreType.Wrong},
     };
 
-    public int Score;
+    public int Score {get; set;}
 
     public ScoreHandler()
     {
         SequenceTimeLineUI.OnStartNewLevelEvent += StartLevel;
     }
 
-    public void StartLevel()
-    {
-        Score = 0;
-    }
+    public void StartLevel() => Score = 0;
 
     public int GetScoreValue(ScoreType scoreType)
     {

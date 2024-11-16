@@ -68,8 +68,11 @@ public class Game1 : Game
         _scene.AddEntity3d(new HouseEntity());
         _scene.AddEntity3d(new NpcEntity());
 
-        _scene.AddUI(new CharBoardUI());
+        var numbers_ui = new NumberSprites();
         var wordsFeedback = new WordsFeedbacksUI();
+
+        _scene.AddUI(new CharBoardUI());
+        _scene.AddUI(new ScoreTextUI(numbers_ui, scoreHandler));
         _scene.AddUI(wordsFeedback);
         _scene.AddUI(new SequenceTimeLineUI(scoreHandler, wordsFeedback));
         _scene.AddUI(new CameraController());
