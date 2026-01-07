@@ -79,6 +79,9 @@
 /processorParam:Quality=Best
 /build:songs/Doobly Doo.mp3
 
+#begin songs/song_events.json
+/copy:songs/song_events.json
+
 #begin textures/default_gray.png
 /importer:TextureImporter
 /processor:TextureProcessor
