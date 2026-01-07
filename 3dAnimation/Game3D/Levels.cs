@@ -1,4 +1,4 @@
-using SongEvents;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
 namespace Game3D;
@@ -8,6 +8,7 @@ public class Levels
     private static int _currentLevel = 0;
     private static SongEvents.Song _songEvents;
     public static List<List<KeySequenceData>> Level;
+    public static List<string> Songs = new List<string>();
 
     public static bool IsTheLastLevel => _currentLevel == Level.Count - 1;
 
@@ -29,7 +30,7 @@ public class Levels
     {
         if (_songEvents != null) return;
 
-        _songEvents = Song.LoadJson(Path.SONG_EVENTS_PATH);
+        _songEvents = SongEvents.Song.LoadJson(Path.SONG_EVENTS_PATH);
         Level = new List<List<KeySequenceData>>();
         foreach (var songEvent in _songEvents.RhythmEditor)
         {
@@ -39,6 +40,7 @@ public class Levels
                 eventList.Add(new KeySequenceData() { Time = eventItem.Timer, KeyDirection = (DirectionKey)eventItem.Arrow });
             }
             Level.Add(eventList);
+            Songs.Add(songEvent.Song.Split(".")[0]);
         }
     }
 }
