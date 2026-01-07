@@ -5,7 +5,7 @@ using UmbrellaToolsKit.Input;
 
 namespace Game3D.Entities;
 
-public class SequenceHandler: UIEntity, ISetup, IRegisterScore, ISequence, ITotalTimer
+public class SequenceHandler : UIEntity, ISetup, IRegisterScore, ISequence, ITotalTimer
 {
     public const float PERFECT_TIME = 0.03f;
     public const float GOOD_TIME = 0.07f;
@@ -23,19 +23,19 @@ public class SequenceHandler: UIEntity, ISetup, IRegisterScore, ISequence, ITota
     public KeysSequence KeysSequence => _keysSequence;
 
     public float TotalTimer => _totalTime;
-    
+
     public void Setup()
     {
-        _keysSequence.Keys = Levels.GetLevel1();
+        _keysSequence.Keys = Levels.GetCurrentLevel();
         float lastTime = 0.0f;
         foreach (var key in _keysSequence.Keys)
-            if(key.Time > lastTime)
+            if (key.Time > lastTime)
                 lastTime = key.Time;
-        
+
         float delay = 1.0f;
 
-        _timerCallback = new Timer(lastTime + delay, delegate 
-        { 
+        _timerCallback = new Timer(lastTime + delay, delegate
+        {
             GameStates.SwitchState(GameStates.State.END_LEVEL);
         });
     }
@@ -53,7 +53,7 @@ public class SequenceHandler: UIEntity, ISetup, IRegisterScore, ISequence, ITota
             Setup();
         }
 
-        if(GameStates.CurrentState != GameStates.State.PLAYING) return;
+        if (GameStates.CurrentState != GameStates.State.PLAYING) return;
 
         _totalTime += deltaTime;
         _timerCallback.Update(deltaTime);

@@ -59,10 +59,10 @@ public class ScoreTextUI : UIEntity, IScore
         if(GameStates.CurrentState != GameStates.State.END_LEVEL) return;
         for(int numbIndex = 0; numbIndex < MAX_NUMBERS; numbIndex++)
         {
-            Vector2 numPosition = GetPositionByIndex(numbIndex);
+            var numPosition = GetPositionByIndex(numbIndex);
             string scoreFormatted = Utils.ToScoreFormat(Score, MAX_NUMBERS);
             int spriteIndex = (int)char.GetNumericValue(scoreFormatted[numbIndex]);
-            Rectangle source = NumberSprites.SpritesCoord[spriteIndex];
+            var source = NumberSprites.SpritesCoord[spriteIndex];
             
             spriteBatch.Draw(Sprite, numPosition, source, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
         }
@@ -70,7 +70,7 @@ public class ScoreTextUI : UIEntity, IScore
 
     private Vector2 GetPositionByIndex(int numbIndex)
     {
-        Vector2 numPosition = new Vector2(NUMBER_WIDTH_SIZE * numbIndex, numbIndex);
+        var numPosition = new Vector2(NUMBER_WIDTH_SIZE * numbIndex, numbIndex);
         return numPosition + Position;
     }
 }

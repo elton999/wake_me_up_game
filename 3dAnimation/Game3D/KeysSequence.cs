@@ -5,7 +5,6 @@ namespace Game3D;
 
 public enum DirectionKey
 {
-    NONE,
     UP,
     DOWN,
     LEFT,

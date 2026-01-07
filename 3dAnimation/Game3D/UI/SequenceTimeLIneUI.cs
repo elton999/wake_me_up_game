@@ -61,16 +61,16 @@ public class SequenceTimeLineUI : UIEntity
 
     private void SetUp()
     {
-        _keysSequence.Keys = Levels.GetLevel1();
+        _keysSequence.Keys = Levels.GetCurrentLevel();
         float lastTime = 0.0f;
         foreach (var key in _keysSequence.Keys)
-            if(key.Time > lastTime)
+            if (key.Time > lastTime)
                 lastTime = key.Time;
-        
+
         float delay = 1.0f;
-        _timerCallback = new Timer(lastTime + delay, delegate 
-        { 
-            OnFinishEvent?.Invoke(); 
+        _timerCallback = new Timer(lastTime + delay, delegate
+        {
+            OnFinishEvent?.Invoke();
             GameStates.SwitchState(GameStates.State.END_LEVEL);
         });
 
@@ -85,7 +85,7 @@ public class SequenceTimeLineUI : UIEntity
             SetUp();
         }
 
-        if(GameStates.CurrentState != GameStates.State.PLAYING) return;
+        if (GameStates.CurrentState != GameStates.State.PLAYING) return;
 
         _totalTime += deltaTime;
         _timerCallback.Update(deltaTime);
@@ -154,7 +154,7 @@ public class SequenceTimeLineUI : UIEntity
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if(GameStates.CurrentState != GameStates.State.PLAYING) return;
+        if (GameStates.CurrentState != GameStates.State.PLAYING) return;
 
         DrawArrow(spriteBatch, DirectionKey.UP);
         DrawArrow(spriteBatch, DirectionKey.RIGHT);
