@@ -1,3 +1,4 @@
+using SongEvents;
 using System.Collections.Generic;
 
 namespace Game3D;
@@ -5,14 +6,37 @@ namespace Game3D;
 public class Levels
 {
     private static int _currentLevel = 0;
+    private static SongEvents.Song _songEvents;
     public static List<List<KeySequenceData>> Level;
 
     public static void NextLevel()
     {
+        LoadSongEvents();
         _currentLevel++;
         if (_currentLevel >= Level.Count)
             _currentLevel = 0;
     }
 
-    public static List<KeySequenceData> GetCurrentLevel() => Level[_currentLevel];
+    public static List<KeySequenceData> GetCurrentLevel()
+    {
+        LoadSongEvents();
+        return Level[_currentLevel]; 
+    }
+
+    private static void LoadSongEvents()
+    {
+        if (_songEvents != null) return;
+
+        _songEvents = Song.LoadJson(Path.SONG_EVENTS_PATH);
+        Level = new List<List<KeySequenceData>>();
+        foreach (var songEvent in _songEvents.RhythmEditor)
+        {
+            var eventList = new List<KeySequenceData>();
+            foreach (var eventItem in songEvent.Events)
+            {
+                eventList.Add(new KeySequenceData() { Time = eventItem.Timer, KeyDirection = (DirectionKey)eventItem.Arrow });
+            }
+            Level.Add(eventList);
+        }
+    }
 }
