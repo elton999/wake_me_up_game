@@ -5,7 +5,9 @@ public static class Path
     public const string TEXTURES_PATH = "textures/";
     public const string UI_TEXTURES_PATH = TEXTURES_PATH + "ui/";
     public const string SHADERS_PATH = "shaders/";
+    public const string SONGS_PATH = "songs/";
     public const string MODELS_PATH = "models/";
+    public const string CONTENT_PATH = "Content/";
 
     public const string BASIC_SHADERS_PATH = SHADERS_PATH + "DiffuseLighting";
 
@@ -26,6 +28,8 @@ public static class Path
 
     public const string MODEL_HOUSE_PATH = MODELS_PATH + "house";
     public const string MODEL_NPC_PATH = MODELS_PATH + "default_npc";
+
+    public const string SONG_EVENTS_PATH = CONTENT_PATH + SONGS_PATH + "song_events.json";
 
     public const string FONT_PATH = "BasicFont";
 }
