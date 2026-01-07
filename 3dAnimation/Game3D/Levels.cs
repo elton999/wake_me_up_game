@@ -9,6 +9,8 @@ public class Levels
     private static SongEvents.Song _songEvents;
     public static List<List<KeySequenceData>> Level;
 
+    public static bool IsTheLastLevel => _currentLevel == Level.Count - 1;
+
     public static void NextLevel()
     {
         LoadSongEvents();
