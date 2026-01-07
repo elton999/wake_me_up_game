@@ -29,12 +29,25 @@ public class WordsFeedbacksUI : UIEntity, IOnGotScore
     private const float TIME_TO_LEAVE = 0.5f;
     private const float MAX_SPRITE_SIZE = 1.0f;
 
+    private IRegisterScore _registerScore;
+
+    public WordsFeedbacksUI(IRegisterScore registerScore)
+    {
+        _registerScore = registerScore;
+    }
+
     public override void Start()
     {
+        _registerScore.OnRegisterScore += OnGotScore;
         _perfectSprite = Scene.Content.Load<Texture2D>(Path.PERFECT_TEXTURE_PATH);
         _goodSprite = Scene.Content.Load<Texture2D>(Path.GOOD_TEXTURE_PATH);
         _okSprite = Scene.Content.Load<Texture2D>(Path.OK_TEXTURE_PATH);
         _wrongSprite = Scene.Content.Load<Texture2D>(Path.WRONG_TEXTURE_PATH);
+    }
+
+    public override void OnDestroy()
+    {
+        _registerScore.OnRegisterScore -= OnGotScore;
     }
 
     public override void Update(float deltaTime)
@@ -53,7 +66,7 @@ public class WordsFeedbacksUI : UIEntity, IOnGotScore
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if(Sprite == null) return;
+        if (Sprite == null) return;
         spriteBatch.Draw(Sprite, _center, null, Color.White * _transparency, 0.0f, _origin, _size, SpriteEffects.None, 1.0f);
     }
 

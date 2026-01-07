@@ -13,4 +13,6 @@ public class Entity
     public virtual void Update(float deltaTime) { }
 
     public void AddScene(Scene scene) => _scene = scene;
+
+    public virtual void OnDestroy() { }
 }

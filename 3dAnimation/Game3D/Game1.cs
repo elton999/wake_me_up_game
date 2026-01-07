@@ -63,18 +63,18 @@ public class Game1 : Game
         _scene = new Scene(_gpu, Content);
         _scene.Camera.UpdateTarget(new Vector3(0.0f, 0.0f, 3.0f));
 
-        var scoreHandler = new ScoreHandler();
 
         _scene.AddEntity3d(new HouseEntity());
         _scene.AddEntity3d(new NpcEntity());
 
         var numbers_ui = new NumberSprites();
-        var wordsFeedback = new WordsFeedbacksUI();
+        var sequenceHandler = new SequenceHandler();
+        _scene.AddUI(sequenceHandler);
 
         _scene.AddUI(new CharBoardUI());
-        _scene.AddUI(new ScoreTextUI(numbers_ui, scoreHandler));
-        _scene.AddUI(wordsFeedback);
-        _scene.AddUI(new SequenceTimeLineUI(scoreHandler, wordsFeedback));
+        _scene.AddUI(new ScoreTextUI(numbers_ui, new ScoreHandler(sequenceHandler)));
+        _scene.AddUI(new WordsFeedbacksUI(sequenceHandler));
+        _scene.AddUI(new SequenceTimeLineUI(sequenceHandler));
         _scene.AddUI(new CameraController());
 
         _font = Content.Load<SpriteFont>(Path.FONT_PATH);

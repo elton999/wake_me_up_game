@@ -15,14 +15,14 @@ public class SequenceHandler : UIEntity, ISetup, IRegisterScore, ISequence, ITot
     private ITimer _timerCallback = new Timer();
     private float _totalTime = 0f;
 
-    private KeysSequence _keysSequence = new KeysSequence();
-
     public event Action<ScoreType> OnRegisterScore;
     public event Action<DirectionKey> OnPressCorrectDirection;
 
     public KeysSequence KeysSequence => _keysSequence;
 
     public float TotalTimer => _totalTime;
+
+    private KeysSequence _keysSequence = new KeysSequence();
 
     public void Setup()
     {

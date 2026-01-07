@@ -24,25 +24,19 @@ public class SequenceTimeLineUI : UIEntity
     private float _totalTime = 0f;
     private Dictionary<DirectionKey, ArrowsDirection> _keySettings;
 
-    private float _perfectTime = 0.03f;
-    private float _goodTime = 0.07f;
-    private float _okTime = 0.15f;
-    private float _offsetKeyPressing = 0.1f;
-
-    private IOnGotScore _scoreDataHandler;
-    private IOnGotScore _scoreVisualHandler;
+    private ISequence _sequence;
 
     private Timer _timerCallback = new Timer();
 
-
-    public SequenceTimeLineUI(IOnGotScore scoreDataHandler, IOnGotScore scoreVisualHandler)
+    public SequenceTimeLineUI(ISequence sequence)
     {
-        _scoreDataHandler = scoreDataHandler;
-        _scoreVisualHandler = scoreVisualHandler;
+        _sequence = sequence;
     }
 
     public override void Start()
     {
+        _sequence.OnPressCorrectDirection += OnPressCorrectDirection;
+
         Texture2D _spriteUp = Scene.Content.Load<Texture2D>(Path.UP_TEXTURE_PATH);
         Texture2D _spriteDown = Scene.Content.Load<Texture2D>(Path.DOWN_TEXTURE_PATH);
         Texture2D _spriteRight = Scene.Content.Load<Texture2D>(Path.RIGHT_TEXTURE_PATH);
@@ -57,6 +51,11 @@ public class SequenceTimeLineUI : UIEntity
         };
 
         SetUp();
+    }
+
+    public override void OnDestroy()
+    {
+        _sequence.OnPressCorrectDirection -= OnPressCorrectDirection;
     }
 
     private void SetUp()
@@ -94,62 +93,6 @@ public class SequenceTimeLineUI : UIEntity
         UpdateSizeAnimation(DirectionKey.DOWN, deltaTime);
         UpdateSizeAnimation(DirectionKey.LEFT, deltaTime);
         UpdateSizeAnimation(DirectionKey.RIGHT, deltaTime);
-
-        if (KeyBoardHandler.KeyPressed("up"))
-            OnPressButton(DirectionKey.UP);
-        if (KeyBoardHandler.KeyPressed("down"))
-            OnPressButton(DirectionKey.DOWN);
-        if (KeyBoardHandler.KeyPressed("left"))
-            OnPressButton(DirectionKey.LEFT);
-        if (KeyBoardHandler.KeyPressed("right"))
-            OnPressButton(DirectionKey.RIGHT);
-    }
-
-    public void OnPressButton(DirectionKey direction)
-    {
-        float timer = _totalTime + _offsetKeyPressing;
-
-        foreach (var key in _keysSequence.Keys)
-        {
-            if (key.KeyDirection != direction) continue;
-            if (key.Checked) continue;
-            if (key.GetTimer(_totalTime) < 0.0f) continue;
-
-            if (key.GetTimer(timer) <= _perfectTime)
-            {
-                key.Checked = true;
-                RegisterScore(direction, ScoreType.Perfect);
-                return;
-            }
-
-            if (key.GetTimer(timer) <= _goodTime)
-            {
-                key.Checked = true;
-                RegisterScore(direction, ScoreType.Good);
-                return;
-            }
-
-            if (key.GetTimer(timer) <= _okTime)
-            {
-                key.Checked = true;
-                RegisterScore(direction, ScoreType.Ok);
-                return;
-            }
-        }
-
-        SetScoreForIntegrations(ScoreType.Wrong);
-    }
-
-    public void RegisterScore(DirectionKey direction, ScoreType score)
-    {
-        _keySettings[direction].Size += 1.0f;
-        SetScoreForIntegrations(score);
-    }
-
-    public void SetScoreForIntegrations(ScoreType score)
-    {
-        _scoreDataHandler.OnGotScore(score);
-        _scoreVisualHandler.OnGotScore(score);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -182,5 +125,10 @@ public class SequenceTimeLineUI : UIEntity
     private void UpdateSizeAnimation(DirectionKey directionKey, float deltaTime)
     {
         _keySettings[directionKey].Size = MathF.Max(1.0f, _keySettings[directionKey].Size - 10.0f * deltaTime);
+    }
+
+    private void OnPressCorrectDirection(DirectionKey direction)
+    {
+        _keySettings[direction].Size += 1.0f;
     }
 }

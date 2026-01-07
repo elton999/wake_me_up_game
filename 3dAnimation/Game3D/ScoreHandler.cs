@@ -32,8 +32,12 @@ public class ScoreHandler : IOnGotScore, IScore
 
     public int Score {get; set;}
 
-    public ScoreHandler()
+    private IRegisterScore _registerScore;
+
+    public ScoreHandler(IRegisterScore registerScore)
     {
+        _registerScore = registerScore;
+        _registerScore.OnRegisterScore += OnGotScore;
         SequenceTimeLineUI.OnStartNewLevelEvent += StartLevel;
     }
 
