@@ -14,7 +14,7 @@ public class GameStates
         GO_TO_NEXT_LEVEL,
     }
 
-    public static State CurrentState = State.PLAYING;
+    public static State CurrentState = State.NONE;
 
     public static void SwitchState(State state)
     {
