@@ -6,6 +6,7 @@ using UmbrellaToolsKit.Input;
 using Microsoft.Xna.Framework.Input;
 
 namespace Game3D;
+
 public class Game1 : Game
 {
     public const int SCREEN_WIDTH = 1024, SCREEN_HEIGHT = 768;
@@ -70,6 +71,7 @@ public class Game1 : Game
         var numbers_ui = new NumberSprites();
         var sequenceHandler = new SequenceHandler();
         _scene.AddUI(sequenceHandler);
+        _scene.AddUI(new SongLevelEntity());
 
         _scene.AddUI(new CharBoardUI());
         _scene.AddUI(new ScoreTextUI(numbers_ui, new ScoreHandler(sequenceHandler)));
@@ -83,6 +85,7 @@ public class Game1 : Game
         KeyBoardHandler.AddInput("down", new Keys[] { Keys.Down, Keys.S });
         KeyBoardHandler.AddInput("left", new Keys[] { Keys.Left, Keys.A });
         KeyBoardHandler.AddInput("right", new Keys[] { Keys.Right, Keys.D });
+        KeyBoardHandler.AddInput("play", Keys.Enter);
 
         KeyBoardHandler.AddInput("reset", Keys.F1);
     }
@@ -90,6 +93,10 @@ public class Game1 : Game
     protected override void Update(GameTime gameTime)
     {
         KeyBoardHandler.SetInputData();
+        if (KeyBoardHandler.KeyPressed("play"))
+        {
+            GameStates.SwitchState(GameStates.State.PLAYING);
+        }
         _scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         base.Update(gameTime);
     }
