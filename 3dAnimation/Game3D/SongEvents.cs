@@ -35,7 +35,7 @@ namespace SongEvents
     public partial class Event
     {
         [JsonProperty("timer")]
-        public long Timer { get; set; }
+        public float Timer { get; set; }
 
         [JsonProperty("arrow")]
         public long Arrow { get; set; }
