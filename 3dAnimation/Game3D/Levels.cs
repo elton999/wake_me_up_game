@@ -20,10 +20,16 @@ public class Levels
             _currentLevel = 0;
     }
 
+    public static string GetCurrentSong()
+    {
+        LoadSongEvents();
+        return Songs[_currentLevel];
+    }
+
     public static List<KeySequenceData> GetCurrentLevel()
     {
         LoadSongEvents();
-        return Level[_currentLevel]; 
+        return Level[_currentLevel];
     }
 
     private static void LoadSongEvents()
