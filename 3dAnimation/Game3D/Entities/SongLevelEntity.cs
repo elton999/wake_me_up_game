@@ -1,5 +1,6 @@
 using Game3D.Interfaces;
 using Microsoft.Xna.Framework.Media;
+using UmbrellaToolsKit.Input;
 
 namespace Game3D.Entities;
 
@@ -22,10 +23,25 @@ public class SongLevelEntity : UIEntity, ISetup
         _isPlaying = true;
     }
 
+    public void Stop()
+    {
+        _isPlaying = false;
+        MediaPlayer.Stop();
+    }
+
     public override void Update(float deltaTime)
     {
         if (GameStates.CurrentState != GameStates.State.PLAYING) return;
-        if (_isPlaying) return;
-        PlaySong();
+
+        if (KeyBoardHandler.KeyPressed("reset"))
+        {
+            Stop();
+            PlaySong();
+        }
+        
+        if (!_isPlaying)
+        {
+            PlaySong();
+        }
     }
 }

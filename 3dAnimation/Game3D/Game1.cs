@@ -87,7 +87,7 @@ public class Game1 : Game
         KeyBoardHandler.AddInput("right", new Keys[] { Keys.Right, Keys.D });
         KeyBoardHandler.AddInput("play", Keys.Enter);
 
-        KeyBoardHandler.AddInput("reset", Keys.F1);
+        KeyBoardHandler.AddInput("reset", Keys.R);
     }
 
     protected override void Update(GameTime gameTime)
@@ -97,6 +97,7 @@ public class Game1 : Game
         {
             GameStates.SwitchState(GameStates.State.PLAYING);
         }
+
         _scene.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         base.Update(gameTime);
     }
