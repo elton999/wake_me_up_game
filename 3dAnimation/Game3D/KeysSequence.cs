@@ -19,7 +19,7 @@ public class KeySequenceData
 
     public Vector2 GetPosition(float currentTimer, Vector2 position)
     {
-        position += Vector2.UnitX * GetTimer(currentTimer) * 200.0f;
+        position += Vector2.UnitX * GetTimer(currentTimer) * 300.0f;
         return position;
     }
 

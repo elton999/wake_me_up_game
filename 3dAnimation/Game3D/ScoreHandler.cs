@@ -24,10 +24,10 @@ public class ScoreHandler : IOnGotScore, IScore
 
     public ScoreValue[] ScoreTable = new ScoreValue[]
     {
-        new ScoreValue { Score = 180, Type = ScoreType.Perfect},
-        new ScoreValue { Score = 150, Type = ScoreType.Good},
-        new ScoreValue { Score = 100, Type = ScoreType.Ok},
-        new ScoreValue { Score = -50, Type = ScoreType.Wrong},
+        new ScoreValue { Score = 180, Type = ScoreType.PERFECT},
+        new ScoreValue { Score = 150, Type = ScoreType.GOOD},
+        new ScoreValue { Score = 100, Type = ScoreType.OK},
+        new ScoreValue { Score = -50, Type = ScoreType.WRONG},
     };
 
     public int Score {get; set;}

@@ -7,10 +7,10 @@ namespace Game3D.Entities;
 
 public class SequenceHandler : UIEntity, ISetup, IRegisterScore, ISequence, ITotalTimer
 {
-    public const float PERFECT_TIME = 0.03f;
-    public const float GOOD_TIME = 0.07f;
-    public const float OK_TIME = 0.15f;
-    public const float OFFSET_KEY_PRESSING = 0.1f;
+    public const float PERFECT_TIME = 0.005f;
+    public const float GOOD_TIME = 0.05f;
+    public const float OK_TIME = 0.07f;
+    public const float OFFSET_KEY_PRESSING = 0.07f;
 
     private ITimer _timerCallback = new Timer();
     private float _totalTime = 0f;
@@ -76,32 +76,39 @@ public class SequenceHandler : UIEntity, ISetup, IRegisterScore, ISequence, ITot
         {
             if (key.KeyDirection != direction) continue;
             if (key.Checked) continue;
-            if (key.GetTimer(_totalTime) < 0.0f) continue;
+            float keyTimer = key.GetTimer(timer);
 
-            if (key.GetTimer(timer) <= PERFECT_TIME)
+            if (keyTimer <= -OFFSET_KEY_PRESSING)
             {
+                continue;
+            }
+
+            if (keyTimer <= PERFECT_TIME && keyTimer >= 0.0f)
+            {
+                Console.WriteLine(keyTimer);
                 key.Checked = true;
-                RegisterScore(direction, ScoreType.Perfect);
+                RegisterScore(direction, ScoreType.PERFECT);
                 return;
             }
 
-            if (key.GetTimer(timer) <= GOOD_TIME)
+            if (keyTimer <= GOOD_TIME && keyTimer >= -GOOD_TIME)
             {
+                Console.WriteLine(keyTimer);
                 key.Checked = true;
-                RegisterScore(direction, ScoreType.Good);
+                RegisterScore(direction, ScoreType.GOOD);
                 return;
             }
 
-            if (key.GetTimer(timer) <= OK_TIME)
+            if (keyTimer <= OK_TIME && keyTimer >= -OK_TIME)
             {
+                Console.WriteLine(keyTimer);
                 key.Checked = true;
-                RegisterScore(direction, ScoreType.Ok);
+                RegisterScore(direction, ScoreType.OK);
                 return;
 
             }
         }
-
-        OnRegisterScore?.Invoke(ScoreType.Wrong);
+        OnRegisterScore?.Invoke(ScoreType.WRONG);
     }
 
     public void RegisterScore(DirectionKey direction, ScoreType score)
