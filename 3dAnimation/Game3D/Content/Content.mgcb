@@ -73,6 +73,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/DiffuseLighting.fx
 
+#begin songs/Cloud Dancer.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:songs/Cloud Dancer.ogg
+
 #begin songs/Doobly Doo.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
