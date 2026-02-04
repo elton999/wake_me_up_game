@@ -7,10 +7,10 @@ namespace Game3D.UI;
 
 public enum ScoreType
 {
-    Perfect,
-    Good,
-    Ok,
-    Wrong
+    PERFECT,
+    GOOD,
+    OK,
+    WRONG
 }
 
 public class WordsFeedbacksUI : UIEntity, IOnGotScore
@@ -74,13 +74,13 @@ public class WordsFeedbacksUI : UIEntity, IOnGotScore
     {
         switch (scoreType)
         {
-            case ScoreType.Perfect:
+            case ScoreType.PERFECT:
                 Sprite = _perfectSprite;
                 break;
-            case ScoreType.Good:
+            case ScoreType.GOOD:
                 Sprite = _goodSprite;
                 break;
-            case ScoreType.Ok:
+            case ScoreType.OK:
                 Sprite = _okSprite;
                 break;
             default:
