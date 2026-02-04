@@ -41,7 +41,7 @@ public class ScoreTextUI : UIEntity, IScore
             TextAnimationTimer ??= new TimerPercent(DELAY_TO_SHOW_SCORE);
             TextAnimationTimer.Update(deltaTime);
 
-            Score = (int)Math.Clamp(TextAnimationTimer.PercentTotal * ScoreData.Score, 0, ScoreData.Score);
+            Score = (int)Math.Clamp(TextAnimationTimer.PercentTotal * ScoreData.Score, 0, int.MaxValue);
             return;
         }
 
