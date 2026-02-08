@@ -7,10 +7,10 @@ namespace Game3D.Entities;
 
 public class SequenceHandler : UIEntity, ISetup, IRegisterScore, ISequence, ITotalTimer
 {
-    public const float PERFECT_TIME = 0.005f;
+    public const float PERFECT_TIME = 0.01f;
     public const float GOOD_TIME = 0.05f;
-    public const float OK_TIME = 0.07f;
-    public const float OFFSET_KEY_PRESSING = 0.07f;
+    public const float OK_TIME = 0.1f;
+    public const float OFFSET_KEY_PRESSING = 0.1f;
 
     private ITimer _timerCallback = new Timer();
     private float _totalTime = 0f;
@@ -83,7 +83,7 @@ public class SequenceHandler : UIEntity, ISetup, IRegisterScore, ISequence, ITot
                 continue;
             }
 
-            if (keyTimer <= PERFECT_TIME && keyTimer >= 0.0f)
+            if (keyTimer <= PERFECT_TIME && keyTimer >= -PERFECT_TIME)
             {
                 Console.WriteLine(keyTimer);
                 key.Checked = true;
