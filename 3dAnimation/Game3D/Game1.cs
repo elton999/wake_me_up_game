@@ -93,7 +93,7 @@ public class Game1 : Game
     protected override void Update(GameTime gameTime)
     {
         KeyBoardHandler.SetInputData();
-        if (KeyBoardHandler.KeyPressed("play"))
+        if (KeyBoardHandler.KeyPressed("play") || KeyBoardHandler.KeyPressed("reset"))
         {
             GameStates.SwitchState(GameStates.State.PLAYING);
         }
