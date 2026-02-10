@@ -29,8 +29,14 @@ public class SequenceHandler : UIEntity, ISetup, IRegisterScore, ISequence, ITot
         _keysSequence.Keys = Levels.GetCurrentLevel();
         float lastTime = 0.0f;
         foreach (var key in _keysSequence.Keys)
+        {
             if (key.Time > lastTime)
+            {
                 lastTime = key.Time;
+                key.Checked = false;
+            }
+
+        }
 
         float delay = 1.0f;
 
